@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.ZuulServletFilter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import sunflower.dto.AuthResponse;
 import sunflower.exception.AuthFailedException;
@@ -35,7 +34,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        String authentication = ((HttpServletRequest) servletRequest).getHeader("Authentication");
+        String authentication = ((HttpServletRequest) servletRequest).getHeader("Authorization");
         String url = ((HttpServletRequest) servletRequest).getRequestURI();
 
         if (WhiteUrl.routeCheck(url)) {
@@ -48,7 +47,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
                 throw new AuthFailedException("Authentic failed: " + e.getMessage());
             }
 
-            if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 1) {
+            if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 200) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 throw new AuthFailedException("Authentic failed: Authentic is illegal");

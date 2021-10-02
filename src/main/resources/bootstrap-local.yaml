@@ -8,10 +8,10 @@ spring:
     nacos:
       config:
         file-extension: yaml
-        namespace: cf561aa0-6b73-4f18-a606-ad93889143d7
+        namespace: 586b0f6a-fc7b-4312-81cb-834461a986b3
         group: DEV_GROUP
         server-addr: 127.0.0.1:8848
       discovery:
         server-addr: 127.0.0.1:8848
-        namespace: cf561aa0-6b73-4f18-a606-ad93889143d7
+        namespace: 586b0f6a-fc7b-4312-81cb-834461a986b3
         group: DEV_GROUP
