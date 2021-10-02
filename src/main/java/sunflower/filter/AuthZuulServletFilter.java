@@ -1,6 +1,7 @@
 package sunflower.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.ZuulServletFilter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
 
     private final RestTemplate restTemplate;
 
+    @Value("${auth-server-host}")
+    private String authEntryPoint;
+
     public AuthZuulServletFilter(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -39,7 +43,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
         } else {
             ResponseEntity<AuthResponse> authResponseResponseEntity = null;
             try {
-                authResponseResponseEntity = restTemplate.postForEntity("url", authentication, AuthResponse.class);
+                authResponseResponseEntity = restTemplate.postForEntity(authEntryPoint, authentication, AuthResponse.class);
             } catch (Exception e) {
                 throw new AuthFailedException("Authentic failed: " + e.getMessage());
             }
