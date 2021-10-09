@@ -83,7 +83,7 @@
 
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
-                    <mainClass>thoughtworks.rachael.zuul.RachaelZuulApplication</mainClass>
+                    <mainClass>sunflower.SunflowerGatewayApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -11,6 +11,7 @@ public class WhiteUrl {
         whiteUrl = new ArrayList<>();
         whiteUrl.add("/login");
         whiteUrl.add("/register");
+        whiteUrl.add("/wx-auth");
     }
 
     //todo: 完善路径检查
