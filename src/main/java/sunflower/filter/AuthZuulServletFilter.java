@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.ZuulServletFilter;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -35,24 +36,26 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         String authentication = ((HttpServletRequest) servletRequest).getHeader("Authorization");
         String url = ((HttpServletRequest) servletRequest).getRequestURI();
-
-        if (WhiteUrl.routeCheck(url)) {
+        if (HttpMethod.OPTIONS.name().equals(((HttpServletRequest) servletRequest).getMethod())) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            ResponseEntity<AuthResponse> authResponseResponseEntity = null;
-            try {
-                authResponseResponseEntity = restTemplate.postForEntity(authEntryPoint, authentication, AuthResponse.class);
-            } catch (Exception e) {
-                throw new AuthFailedException("Authentic failed: " + e.getMessage());
-            }
-
-            if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 200) {
+            if (WhiteUrl.routeCheck(url)) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                throw new AuthFailedException("Authentic failed: Authentic is illegal");
+                ResponseEntity<AuthResponse> authResponseResponseEntity = null;
+                try {
+                    authResponseResponseEntity = restTemplate.postForEntity(authEntryPoint, authentication, AuthResponse.class);
+                } catch (Exception e) {
+                    throw new AuthFailedException("Authentic failed: " + e.getMessage());
+                }
+
+                if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 200) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    throw new AuthFailedException("Authentic failed: Authentic is illegal");
+                }
             }
         }
     }

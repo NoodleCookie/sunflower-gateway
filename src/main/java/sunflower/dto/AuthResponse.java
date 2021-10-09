@@ -14,4 +14,6 @@ public class AuthResponse {
     private int code;
 
     private String msg;
+
+    private String principle;
 }

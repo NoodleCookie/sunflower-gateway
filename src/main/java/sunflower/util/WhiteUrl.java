@@ -13,6 +13,7 @@ public class WhiteUrl {
         whiteUrl.add("/register");
     }
 
+    //todo: 完善路径检查
     public static boolean routeCheck(String url) {
         for (String whiteWord : whiteUrl) {
             if (url.contains(whiteWord)) {
