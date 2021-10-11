@@ -1,5 +1,6 @@
 package sunflower.filter;
 
+import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -52,6 +53,8 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
                 }
 
                 if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 200) {
+                    RequestContext ctx = RequestContext.getCurrentContext();
+                    ctx.addZuulRequestHeader("server-user",authResponseResponseEntity.getBody().getPrinciple());
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
                     throw new AuthFailedException("Authentic failed: Authentic is illegal");
