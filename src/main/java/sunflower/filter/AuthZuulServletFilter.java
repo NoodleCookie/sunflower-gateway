@@ -39,7 +39,6 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String authentication = ((HttpServletRequest) servletRequest).getHeader("Authorization");
-        ((HttpServletResponse) servletResponse).setHeader("Access-Control-Allow-Origin", "*");
         String url = ((HttpServletRequest) servletRequest).getRequestURI();
         if (HttpMethod.OPTIONS.name().equals(((HttpServletRequest) servletRequest).getMethod())) {
             filterChain.doFilter(servletRequest, servletResponse);
