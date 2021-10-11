@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -38,6 +39,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String authentication = ((HttpServletRequest) servletRequest).getHeader("Authorization");
+        ((HttpServletResponse) servletResponse).setHeader("Access-Control-Allow-Origin", "*");
         String url = ((HttpServletRequest) servletRequest).getRequestURI();
         if (HttpMethod.OPTIONS.name().equals(((HttpServletRequest) servletRequest).getMethod())) {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -54,7 +56,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
 
                 if (Objects.requireNonNull(authResponseResponseEntity.getBody()).getCode() == 200) {
                     RequestContext ctx = RequestContext.getCurrentContext();
-                    ctx.addZuulRequestHeader("server-user",authResponseResponseEntity.getBody().getPrinciple());
+                    ctx.addZuulRequestHeader("server-user", authResponseResponseEntity.getBody().getPrinciple());
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
                     throw new AuthFailedException("Authentic failed: Authentic is illegal");
