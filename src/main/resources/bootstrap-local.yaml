@@ -15,3 +15,11 @@ spring:
         server-addr: 127.0.0.1:8848
         namespace: 586b0f6a-fc7b-4312-81cb-834461a986b3
         group: DEV_GROUP
+
+zuul:
+  host:
+    connect-timeout-millis: 15000 #HTTP连接超时要比Hystrix的大
+    socket-timeout-millis: 60000   #socket超时
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
