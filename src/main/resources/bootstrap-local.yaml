@@ -1,6 +1,16 @@
 server:
   port: 8520
 
+yourOktaDomain: dev-15510084.okta.com
+authorizationServerId: default
+
+okta:
+  oauth2:
+    redirect-uri: "/test"
+    issuer: "https://${yourOktaDomain}/oauth2/${authorizationServerId}"
+    client-id: 0oa2gk21ka5aoVjA25d7
+    client-secret: LaAZIrJOek2rmr5UiywhRt9DY3BSO3LPLQqTLfGO
+    postLogoutRedirectUri: http://localhost:8520/test
 spring:
   application:
     name: sunflower-gateway

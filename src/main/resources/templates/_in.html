@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sunflower</title>
+</head>
+<body>
+Welcome to Sunflower application
+<a href="/oauth2/authorization/okta">Sign In</a>
+<form method="get" action="/logout">
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  <button id="logout-button" type="submit">Logout</button>
+</form>
+
+</body>
+</html>

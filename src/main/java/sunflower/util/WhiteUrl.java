@@ -10,8 +10,12 @@ public class WhiteUrl {
     static {
         whiteUrl = new ArrayList<>();
         whiteUrl.add("/login");
+        whiteUrl.add("/logout");
         whiteUrl.add("/register");
         whiteUrl.add("/wx-auth");
+        whiteUrl.add("/test");
+        whiteUrl.add("/hello");
+        whiteUrl.add("/index");
     }
 
     //todo: 完善路径检查
