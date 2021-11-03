@@ -7,6 +7,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.ZuulServletFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import sunflower.dto.AuthResponse;
@@ -31,6 +32,7 @@ public class AuthZuulServletFilter extends ZuulServletFilter {
 
     @Value("${auth-server-host}")
     private String authEntryPoint;
+
 
     public AuthZuulServletFilter(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

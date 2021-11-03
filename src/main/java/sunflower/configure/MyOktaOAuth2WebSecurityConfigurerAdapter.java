@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
+import java.net.URI;
+
 
 @EnableWebSecurity
 public class MyOktaOAuth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter{
@@ -16,7 +18,9 @@ public class MyOktaOAuth2WebSecurityConfigurerAdapter extends WebSecurityConfigu
     ClientRegistrationRepository clientRegistrationRepository;
 
     OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler() {
-        return new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
+        OidcClientInitiatedLogoutSuccessHandler oidcClientInitiatedLogoutSuccessHandler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
+        oidcClientInitiatedLogoutSuccessHandler.setPostLogoutRedirectUri(URI.create("http://sunflower.linko.top"));
+        return oidcClientInitiatedLogoutSuccessHandler;
     }
 
     @Override
@@ -34,5 +38,6 @@ public class MyOktaOAuth2WebSecurityConfigurerAdapter extends WebSecurityConfigu
 
                 // enable OAuth2/OIDC
                 .and().oauth2Login();
+        http.cors();
     }
 }

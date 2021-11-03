@@ -7,16 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RefreshScope
-@RequestMapping("/logout")
+@RequestMapping
 public class ControllerTest {
-
-    @Value("${test}")
-    private String test;
 
     @ResponseBody
     @PostMapping
     public String gatewayTest() {
-        return "welcome to sunflower gateway service:" + test;
+        return "welcome to sunflower gateway service";
     }
 
     @GetMapping("/index")

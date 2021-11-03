@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class ExampleRestController {
     @GetMapping("/hello")
-    String helloUser(@AuthenticationPrincipal OidcUser user) {
-        return "Hello " + user.getAttributes().get("email");
+    OidcUser helloUser(@AuthenticationPrincipal OidcUser user) {
+        return user;
     }
 }
